@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. The palette comes from a sewing table:
+ * a green cutting mat, a yellow tape measure, pattern-paper white and navy ink.
+ */
+@theme {
+  --color-paper: #eef1f0;
+  --color-sheet: #fbfcfb;
+  --color-ink: #141a2b;
+  --color-muted: #4a5465;
+  --color-chalk: #d3dad8;
+  --color-stitch: #aab4b1;
+  --color-mat: #2d5b4b;
+  --color-tape: #f2c531;
+
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body {
+    min-height: 100svh;
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Self-healing cutting mat: a fine grid with a stronger line every fourth square. */
+  .mat {
+    background-color: var(--color-mat);
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.12) 1px, transparent 1px),
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size:
+      96px 96px,
+      96px 96px,
+      24px 24px,
+      24px 24px;
+  }
+
+  /* On the dark mat, the focus ring switches to tape yellow so it stays visible. */
+  .on-mat :focus-visible {
+    outline-color: var(--color-tape);
+  }
+
+  /* Tape measure: short ticks every 12px and a long tick every 60px. */
+  .tape {
+    background-color: var(--color-tape);
+  }
+
+  .tape-vertical {
+    background-color: var(--color-tape);
+    background-image:
+      repeating-linear-gradient(to bottom, var(--color-ink) 0 1.5px, transparent 1.5px 12px),
+      repeating-linear-gradient(to bottom, var(--color-ink) 0 1.5px, transparent 1.5px 60px);
+    background-size:
+      9px 100%,
+      18px 100%;
+    background-position:
+      right top,
+      right top;
+    background-repeat: no-repeat;
+  }
+
+  /* Care-label card: paper with a stitched inner border. */
+  .label-card {
+    position: relative;
+    background: var(--color-sheet);
+    border: 1px solid var(--color-chalk);
+    border-radius: 8px;
+  }
+
+  .label-card::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1.5px dashed var(--color-stitch);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+}
